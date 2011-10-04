@@ -1,4 +1,5 @@
 - init-Skript
+- Log-Level/File konfigurierbar
 - README
-
+- Auf Frequenz anderer Messages reagieren
 
