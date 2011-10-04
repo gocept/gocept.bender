@@ -29,6 +29,7 @@ setup(
         'dnspython', # xmpp doesn't declare
     ],
     extras_require=dict(test=[
+        'mock',
     ]),
     entry_points=dict(console_scripts=[
         'bender-server = gocept.bender.bot:main',
