@@ -14,11 +14,14 @@ class QuoteTrigger(object):
     min_silence_duration = datetime.timedelta(minutes=5)
     speaking_probability = 1.0 / (10 * 60)
 
-    def __init__(self, bender):
+    def __init__(self, bender, **kw):
         self.bender = bender
         self.last_spoken = datetime.datetime.min
         self.quotes = pkg_resources.resource_string(
             self.__class__.__module__, 'quote.txt').splitlines()
+
+        for key in ['min_silence_duration', 'speaking_probability']:
+            setattr(self, key, kw.get(key, getattr(self, key)))
 
     @classmethod
     def start(cls, *args, **kw):
