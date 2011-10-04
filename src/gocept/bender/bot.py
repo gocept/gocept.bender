@@ -1,7 +1,6 @@
 # Copyright (c) 2011 gocept gmbh & co. kg
 # See also LICENSE.txt
 
-from gocept.bender.secret import PASSWORD
 import Queue
 import gocept.bender.http
 import gocept.bender.quote
@@ -16,11 +15,10 @@ log = logging.getLogger(__name__)
 
 class Bender(jabberbot.JabberBot):
 
-    muc = 'team@chat.gocept.com'
-
-    def __init__(self):
+    def __init__(self, user, password, chatroom):
         super(Bender, self).__init__(
-            'ws@gocept.com', PASSWORD, res='bender.' + socket.gethostname())
+            user, password, res='bender.' + socket.gethostname())
+        self.muc = chatroom
         self.join_room(self.muc, 'bender')
         self.messages = Queue.Queue()
 
@@ -35,13 +33,14 @@ class Bender(jabberbot.JabberBot):
         self.messages.put(message)
 
 
-def main():
+def main(**kw):
     global BENDER
     # logging.root.handlers = [logging.StreamHandler(sys.stdout)]
     # logging.root.setLevel(logging.DEBUG)
-    BENDER = Bender()
-    httpd = gocept.bender.http.HTTPServer.start('localhost', 9090)
-    quote = gocept.bender.quote.QuoteTrigger.start(BENDER)
+    BENDER = Bender(kw['user'], kw['password'], kw['chatroom'])
+    host, port = kw['http_address'].split(':')
+    httpd = gocept.bender.http.HTTPServer.start(host, int(port))
+    quote = gocept.bender.quote.QuoteTrigger.start(BENDER, **kw)
     try:
         BENDER.serve_forever()
     finally:
