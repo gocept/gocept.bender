@@ -1,0 +1,2 @@
+- konfigurierbar machen (user, pass, http port etc.)
+- shutdown (auch mit init-Skript / daemonized)

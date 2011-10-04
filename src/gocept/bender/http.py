@@ -19,6 +19,7 @@ class HTTPServer(BaseHTTPServer.HTTPServer):
         thread = threading.Thread(target=httpd.serve_until_shutdown)
         thread.daemon = True
         thread.start()
+        return httpd
 
     def serve_until_shutdown(self):
         while self._continue:

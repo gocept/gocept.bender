@@ -4,6 +4,7 @@
 from gocept.bender.secret import PASSWORD
 import Queue
 import gocept.bender.http
+import gocept.bender.quote
 import jabberbot
 import logging
 import socket
@@ -39,5 +40,10 @@ def main():
     # logging.root.handlers = [logging.StreamHandler(sys.stdout)]
     # logging.root.setLevel(logging.DEBUG)
     BENDER = Bender()
-    gocept.bender.http.HTTPServer.start('localhost', 9090)
-    BENDER.serve_forever()
+    httpd = gocept.bender.http.HTTPServer.start('localhost', 9090)
+    quote = gocept.bender.quote.QuoteTrigger.start(BENDER)
+    try:
+        BENDER.serve_forever()
+    finally:
+        httpd.shutdown()
+        quote.stop()
