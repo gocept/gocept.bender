@@ -11,6 +11,7 @@ class QuoteTriggerTest(unittest.TestCase):
     def test_should_not_talk_twice_within_time_threshold(self):
         bender = mock.Mock()
         trigger = QuoteTrigger(bender)
+        trigger.speaking_probability = 1.0
         trigger.maybe_say_something()
         trigger.maybe_say_something()
         self.assertEqual(1, bender.say.call_count)
