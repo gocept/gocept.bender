@@ -1,5 +1,5 @@
+- Auf Frequenz anderer Messages reagieren
+- HTTP mit AUTH
 - init-Skript
 - Log-Level/File konfigurierbar
 - README
-- Auf Frequenz anderer Messages reagieren
-
