@@ -2,3 +2,5 @@
 - ZDaemon
 - Log-Level konfigurierbar (auf stdout loggen)
 - README
+- Account für Bender
+- Nagios IM-Notify umstellen
