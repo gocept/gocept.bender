@@ -1,4 +1,4 @@
 - Auf Frequenz anderer Messages reagieren
-- init-Skript
-- Log-Level/File konfigurierbar
+- ZDaemon
+- Log-Level konfigurierbar (auf stdout loggen)
 - README
