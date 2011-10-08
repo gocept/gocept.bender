@@ -34,15 +34,15 @@ class Bender(jabberbot.JabberBot):
 
 
 def main(**kw):
-    global BENDER
     # logging.root.handlers = [logging.StreamHandler(sys.stdout)]
     # logging.root.setLevel(logging.DEBUG)
-    BENDER = Bender(kw['user'], kw['password'], kw['chatroom'])
+    bender = Bender(kw['jabber_user'], kw['jabber_password'], kw['chatroom'])
     host, port = kw['http_address'].split(':')
-    httpd = gocept.bender.http.HTTPServer.start(host, int(port))
-    quote = gocept.bender.quote.QuoteTrigger.start(BENDER, **kw)
+    httpd = gocept.bender.http.HTTPServer.start(
+        host, int(port), bender, kw['http_user'], kw['http_password'])
+    quote = gocept.bender.quote.QuoteTrigger.start(bender, **kw)
     try:
-        BENDER.serve_forever()
+        bender.serve_forever()
     finally:
         httpd.shutdown()
         quote.stop()

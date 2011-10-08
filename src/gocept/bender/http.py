@@ -13,8 +13,11 @@ class HTTPServer(BaseHTTPServer.HTTPServer):
     _continue = True
 
     @classmethod
-    def start(cls, host, port):
+    def start(cls, host, port, bender, username, password):
         server_address = (host, port)
+        BenderRequestHandler.bender = bender
+        BenderRequestHandler.username = username
+        BenderRequestHandler.password = password
         httpd = cls(server_address, BenderRequestHandler)
         thread = threading.Thread(target=httpd.serve_until_shutdown)
         thread.daemon = True
@@ -48,7 +51,28 @@ class BaseHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
 class BenderRequestHandler(BaseHTTPRequestHandler):
 
+    bender = None
+    username = None
+    password = None
+
+    def authorize(self):
+        auth_header = self.headers.getheader('Authorization')
+        hash = '%s:%s' % (self.username, self.password)
+        hash = hash.encode('base64').strip()
+        if auth_header == 'Basic %s' % hash:
+            return True
+        return False
+
     def do_POST(self):
+        if not self.authorize():
+            self.send_response(401)
+            self.send_header(
+                'WWW-Authenticate', 'Basic realm="Bender Jabber Bot"')
+            self.end_headers()
+            return
+
         length = int(self.headers['content-length'])
         data = self.rfile.read(length)
-        gocept.bender.bot.BENDER.say(data)
+        self.bender.say(data)
+        self.send_response(200)
+        self.end_headers()
