@@ -65,14 +65,27 @@ class BenderRequestHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         if not self.authorize():
-            self.send_response(401)
             self.send_header(
                 'WWW-Authenticate', 'Basic realm="Bender Jabber Bot"')
-            self.end_headers()
+            self.render(
+                'ERROR - Unauthorized: You sent no or invalid credentials',
+                status=401)
             return
 
         length = int(self.headers['content-length'])
         data = self.rfile.read(length)
         self.bender.say(data)
-        self.send_response(200)
+        self.render("OK - I've said that to %s" % self.bender.chatroom)
+
+    def do_GET(self):
+        self.render(
+            "OK - Hello human! I'm Bender. If you have something"
+            " for me to say, please POST it here.")
+
+    def render(self, text, status=200):
+        self.send_response(status)
+        self.send_header('Content-type', 'text/plain; charset=utf-8')
         self.end_headers()
+        if not text.endswith('\n'):
+            text += '\n'
+        self.wfile.write(text.encode('utf-8'))
