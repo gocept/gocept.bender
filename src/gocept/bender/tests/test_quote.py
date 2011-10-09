@@ -31,8 +31,10 @@ class QuoteTriggerTest(unittest.TestCase):
         trigger.maybe_say_something()
         self.assertFalse(bender.say.called)
 
-        ANY = None
-        zope.event.notify(gocept.bender.interfaces.MessageReceivedEvent(ANY))
+        msg = mock.Mock()
+        msg.getType.return_value = 'groupchat'
+        msg.getFrom().getResource.return_value = 'some_human'
+        zope.event.notify(gocept.bender.interfaces.MessageReceivedEvent(msg))
 
         trigger.maybe_say_something()
         self.assertTrue(bender.say.called)
