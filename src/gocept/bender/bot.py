@@ -34,8 +34,8 @@ class Bender(jabberbot.JabberBot):
 
 
 def main(**kw):
-    # logging.root.handlers = [logging.StreamHandler(sys.stdout)]
-    # logging.root.setLevel(logging.DEBUG)
+    logging.root.handlers = [logging.StreamHandler(sys.stdout)]
+    logging.root.setLevel(logging.DEBUG) # XXX make configurable
     bender = Bender(kw['jabber_user'], kw['jabber_password'], kw['chatroom'])
     host, port = kw['http_address'].split(':')
     httpd = gocept.bender.http.HTTPServer.start(
