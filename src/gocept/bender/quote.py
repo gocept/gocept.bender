@@ -52,7 +52,12 @@ class QuoteTrigger(object):
         self._continue = False
 
     @zope.component.adapter(gocept.bender.interfaces.MessageReceivedEvent)
-    def count_human_message(self, message):
+    def count_human_message(self, event):
+        message = event.message
+        if message.getType() != 'groupchat':
+            return
+        if message.getFrom().getResource() == 'bender':
+            return
         self.human_message_count += 1
 
     @property
