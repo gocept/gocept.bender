@@ -52,7 +52,7 @@ def main(**kw):
     handler.setFormatter(logging.Formatter(
             '%(asctime)s %(levelname)s %(message)s'))
     logging.root.handlers = [handler]
-    logging.root.setLevel(logging.DEBUG) # XXX make configurable
+    logging.root.setLevel(getattr(logging, kw['loglevel']))
     bender = Bender(kw['jabber_user'], kw['jabber_password'], kw['chatroom'])
     host, port = kw['http_address'].split(':')
     httpd = gocept.bender.http.HTTPServer.start(
