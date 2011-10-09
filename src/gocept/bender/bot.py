@@ -23,6 +23,7 @@ class Bender(jabberbot.JabberBot):
             user, password, res='bender.' + socket.gethostname())
         self.chatroom = chatroom
         self.join_room(self.chatroom, 'bender')
+        log.info('joined %s', self.chatroom)
         self.messages = Queue.Queue()
 
     def idle_proc(self):
@@ -30,16 +31,20 @@ class Bender(jabberbot.JabberBot):
             message = self.messages.get_nowait()
         except Queue.Empty:
             return super(Bender, self).idle_proc()
+        log.info('sending %r to %s', message, self.chatroom)
         self.send(self.chatroom, message, message_type='groupchat')
 
     def say(self, message):
         self.messages.put(message)
 
-    def callback_message(self, connection, message):
+    def callback_message(self, connection, msg):
         # XXX we don't call super at the moment, so botcmd is disabled
         self.__lastping = time.time()
+        log.debug('received message %r', (
+                msg.getType(), self.get_sender_username(msg),
+                msg.getProperties(), msg.getBody()))
         zope.event.notify(
-            gocept.bender.interfaces.MessageReceivedEvent(message))
+            gocept.bender.interfaces.MessageReceivedEvent(msg))
 
 
 def main(**kw):
