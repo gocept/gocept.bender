@@ -2,8 +2,12 @@
 # See also LICENSE.txt
 
 import BaseHTTPServer
+import logging
 import threading
 import urllib2
+
+
+log = logging.getLogger(__name__)
 
 
 class HTTPServer(BaseHTTPServer.HTTPServer):
@@ -21,6 +25,7 @@ class HTTPServer(BaseHTTPServer.HTTPServer):
         thread = threading.Thread(target=httpd.serve_until_shutdown)
         thread.daemon = True
         thread.start()
+        log.info('HTTP server started on %r', server_address)
         return httpd
 
     def serve_until_shutdown(self):
@@ -75,6 +80,7 @@ class BenderRequestHandler(BaseHTTPRequestHandler):
         data = self.rfile.read(length)
         self.bender.say(data)
         self.send_response(200)
+        log.info('Received POST from %r', self.client_address[0])
         self.render("OK - I've said that to %s" % self.bender.chatroom)
 
     def do_GET(self):
