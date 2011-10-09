@@ -1,6 +1,8 @@
 - Auf Frequenz anderer Messages reagieren
 - ZDaemon
 - Log-Level konfigurierbar (auf stdout loggen)
+- HTTP Antworten
+- buildout in profiles splitten, deployment einführen
 - README
 - Account für Bender
 - Nagios IM-Notify umstellen
