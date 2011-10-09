@@ -1,6 +1,4 @@
 - Auf Frequenz anderer Messages reagieren
-- buildout: deployment einführen
-- ZDaemon
 - Log-Level konfigurierbar (auf stdout loggen)
 - HTTP Antworten
 - README
