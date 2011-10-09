@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='gocept.bender',
-    version='1.0',
+    version='1.1dev',
     author='Wolfgang Schnerring',
     author_email='ws@gocept.com',
     url='http://packages.python.org/gocept.bender',
