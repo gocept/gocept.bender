@@ -1,3 +1,4 @@
+# coding: utf-8
 # Copyright (c) 2011 gocept gmbh & co. kg
 # See also LICENSE.txt
 
@@ -50,3 +51,8 @@ class HTTPServerTest(unittest.TestCase):
     def test_correct_credentials_should_work(self):
         self.make_request(user='user', password='pass')
         self.bender.say.assert_called_with('foo')
+
+    def test_umlauts_are_transmitted_correctly(self):
+        self.make_request(user='user', password='pass',
+                          data=u'föö'.encode('utf-8'))
+        self.bender.say.assert_called_with(u'föö')

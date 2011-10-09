@@ -50,7 +50,7 @@ class Bender(jabberbot.JabberBot):
 def main(**kw):
     handler = logging.StreamHandler(sys.stdout)
     handler.setFormatter(logging.Formatter(
-            '%(asctime)s %(levelname)s %(message)s'))
+            '%(asctime)s %(levelname)s %(name)s %(message)s'))
     logging.root.handlers = [handler]
     logging.root.setLevel(getattr(logging, kw['loglevel']))
     bender = Bender(kw['jabber_user'], kw['jabber_password'], kw['chatroom'])
