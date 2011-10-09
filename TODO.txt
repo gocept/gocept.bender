@@ -1,5 +1,5 @@
 - Auf Frequenz anderer Messages reagieren
-- Log-Level konfigurierbar (auf stdout loggen)
+- Log-Level konfigurierbar
 - HTTP Antworten
 - README
 - Account für Bender
