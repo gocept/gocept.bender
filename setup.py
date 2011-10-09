@@ -23,10 +23,12 @@ setup(
     license='ZPL',
     namespace_packages=['gocept'],
     install_requires=[
-        'setuptools',
-        'jabberbot',
-        'xmpppy', # jabberbot doesn't declare
         'dnspython', # xmpp doesn't declare
+        'jabberbot',
+        'setuptools',
+        'xmpppy', # jabberbot doesn't declare
+        'zope.component',
+        'zope.event',
     ],
     extras_require=dict(test=[
         'mock',

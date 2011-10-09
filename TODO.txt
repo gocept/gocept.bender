@@ -1,4 +1,3 @@
-- Auf Frequenz anderer Messages reagieren
 - Log-Level konfigurierbar
 - README
 - Account für Bender

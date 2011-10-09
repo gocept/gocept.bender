@@ -3,11 +3,14 @@
 
 import Queue
 import gocept.bender.http
+import gocept.bender.interfaces
 import gocept.bender.quote
 import jabberbot
 import logging
 import socket
 import sys
+import time
+import zope.event
 
 
 log = logging.getLogger(__name__)
@@ -31,6 +34,12 @@ class Bender(jabberbot.JabberBot):
 
     def say(self, message):
         self.messages.put(message)
+
+    def callback_message(self, connection, message):
+        # XXX we don't call super at the moment, so botcmd is disabled
+        self.__lastping = time.time()
+        zope.event.notify(
+            gocept.bender.interfaces.MessageReceivedEvent(message))
 
 
 def main(**kw):
