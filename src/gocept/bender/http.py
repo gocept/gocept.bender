@@ -2,7 +2,6 @@
 # See also LICENSE.txt
 
 import BaseHTTPServer
-import gocept.bender.bot
 import threading
 import urllib2
 
