@@ -18,8 +18,8 @@ class Bender(jabberbot.JabberBot):
     def __init__(self, user, password, chatroom):
         super(Bender, self).__init__(
             user, password, res='bender.' + socket.gethostname())
-        self.muc = chatroom
-        self.join_room(self.muc, 'bender')
+        self.chatroom = chatroom
+        self.join_room(self.chatroom, 'bender')
         self.messages = Queue.Queue()
 
     def idle_proc(self):
@@ -27,7 +27,7 @@ class Bender(jabberbot.JabberBot):
             message = self.messages.get_nowait()
         except Queue.Empty:
             return super(Bender, self).idle_proc()
-        self.send(self.muc, message, message_type='groupchat')
+        self.send(self.chatroom, message, message_type='groupchat')
 
     def say(self, message):
         self.messages.put(message)

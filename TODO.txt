@@ -1,6 +1,5 @@
 - Auf Frequenz anderer Messages reagieren
 - Log-Level konfigurierbar
-- HTTP Antworten
 - README
 - Account für Bender
 - Nagios IM-Notify umstellen
