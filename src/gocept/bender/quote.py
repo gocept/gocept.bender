@@ -18,6 +18,7 @@ class QuoteTrigger(object):
     min_silence_duration = NotImplemented
     min_human_messages = NotImplemented
     speaking_probability = NotImplemented
+    join_wait = 30
 
     def __init__(self, bender, **kw):
         self.bender = bender
@@ -25,6 +26,7 @@ class QuoteTrigger(object):
         self.human_message_count = 0
         self.quotes = pkg_resources.resource_string(
             self.__class__.__module__, 'quote.txt').splitlines()
+        self.join_time = time.time()
 
         zope.component.getSiteManager().registerHandler(
             self.count_human_message)
@@ -53,6 +55,10 @@ class QuoteTrigger(object):
 
     @zope.component.adapter(gocept.bender.interfaces.MessageReceivedEvent)
     def count_human_message(self, event):
+        # skip backlog messages
+        if time.time() - self.join_time < self.join_wait:
+            return
+
         message = event.message
         if message.getType() != 'groupchat':
             return
