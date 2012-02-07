@@ -20,12 +20,18 @@ class HTTPServerTest(unittest.TestCase):
     def tearDown(self):
         self.httpd.shutdown()
 
-    def make_request(self, user=None, password=None, data='foo'):
+    def make_request(self, user=None, password=None,
+                     data='foo', encoding=None):
         url = 'http://localhost:%s' % self.port
         passman = urllib2.HTTPPasswordMgrWithDefaultRealm()
         passman.add_password(None, url, user, password)
         authhandler = urllib2.HTTPBasicAuthHandler(passman)
         opener = urllib2.build_opener(authhandler)
+        if encoding is not None:
+            url = urllib2.Request(
+                url,
+                headers={'Content-Type': 'text/plain; charset=%s' % encoding})
+            data = data.encode(encoding)
         return opener.open(url, data)
 
     def test_no_credentials_should_return_unauthorized(self):
@@ -54,5 +60,5 @@ class HTTPServerTest(unittest.TestCase):
 
     def test_umlauts_are_transmitted_correctly(self):
         self.make_request(user='user', password='pass',
-                          data=u'föö'.encode('utf-8'))
+                          data=u'föö', encoding='utf-8')
         self.bender.say.assert_called_with(u'föö')
