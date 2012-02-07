@@ -78,6 +78,12 @@ class BenderRequestHandler(BaseHTTPRequestHandler):
 
         length = int(self.headers['content-length'])
         data = self.rfile.read(length)
+        content_type = self.headers.get('content-type')
+        if content_type:
+            items = dict(tuple(item.strip().split('=', 1))
+                         for item in content_type.split(';')[1:])
+            if 'charset' in items:
+                data = data.decode(items['charset'])
         self.bender.say(data)
         self.send_response(200)
         log.info('Received POST from %r', self.client_address[0])
