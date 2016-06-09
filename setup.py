@@ -1,21 +1,18 @@
-# Copyright (c) 2011 gocept gmbh & co. kg
-# See also LICENSE.txt
-
 from setuptools import setup, find_packages
 
 
 setup(
     name='gocept.bender',
     version='1.1dev',
-    author='Wolfgang Schnerring',
-    author_email='ws@gocept.com',
-    url='http://packages.python.org/gocept.bender',
+    author='gocept gmbh & co. kg',
+    author_email='mail@gocept.com',
+    url='https://bitbucket.org/gocept/gocept.bender',
     description="""A Jabber-Bot that can be told things to say via XML-RPC.
 """,
     long_description=(
-        open('README.txt').read()
-        + '\n\n'
-        + open('CHANGES.txt').read()),
+        open('README.txt').read() +
+        '\n\n' +
+        open('CHANGES.txt').read()),
     packages=find_packages('src'),
     package_dir={'': 'src'},
     include_package_data=True,
@@ -23,10 +20,10 @@ setup(
     license='ZPL',
     namespace_packages=['gocept'],
     install_requires=[
-        'dnspython', # xmpp doesn't declare
+        'dnspython',  # xmpp doesn't declare
         'jabberbot',
         'setuptools',
-        'xmpppy', # jabberbot doesn't declare
+        'xmpppy',  # jabberbot doesn't declare
         'zope.component',
         'zope.event',
     ],
