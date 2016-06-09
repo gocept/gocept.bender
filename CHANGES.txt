@@ -4,6 +4,8 @@ CHANGES
 1.1 (unreleased)
 ----------------
 
+- Migrate repository to Bitbucket.
+
 - Fixed charset handling in the HTTP interface.
 
 
